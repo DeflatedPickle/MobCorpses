@@ -1,11 +1,11 @@
-/* Copyright (c) 2021 Example under the CC0 license */
+/* Copyright (c) 2021-2022 DeflatedPickle under the MIT license */
 
-package com.example.examplemod
+package com.deflatedpickle.mobcorpses
 
 import net.fabricmc.api.ModInitializer
 
 @Suppress("UNUSED")
-object ExampleMod : ModInitializer {
+object MobCorpses : ModInitializer {
     private const val MOD_ID = "$[id]"
     private const val NAME = "$[name]"
     private const val GROUP = "$[group]"

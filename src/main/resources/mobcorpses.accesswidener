@@ -1,0 +1,3 @@
+accessWidener	v1	named
+
+accessible    method    net/minecraft/block/RedstoneOreBlock    spawnParticles    (Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V
