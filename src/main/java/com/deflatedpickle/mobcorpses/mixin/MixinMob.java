@@ -3,7 +3,6 @@
 package com.deflatedpickle.mobcorpses.mixin;
 
 import net.minecraft.block.RedstoneOreBlock;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
@@ -13,7 +12,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -21,13 +19,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @SuppressWarnings("UnusedMixin")
 @Mixin(MobEntity.class)
 public abstract class MixinMob {
-  @Shadow
-  protected abstract void dropLoot(DamageSource source, boolean causedByPlayer);
-
-  @Shadow
-  protected abstract void dropEquipment(
-      DamageSource source, int lootingMultiplier, boolean allowDrops);
-
   @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
   public void onMobInteract(
       PlayerEntity player, Hand interactionHand, CallbackInfoReturnable<ActionResult> cir) {
@@ -35,11 +26,7 @@ public abstract class MixinMob {
 
     if (!me.isAlive() && player.getStackInHand(interactionHand).getItem() instanceof ShearsItem) {
       if (!player.world.isClient) {
-        var source = DamageSource.player(player);
-
-        this.dropLoot(source, true);
-        this.dropEquipment(source, EnchantmentHelper.getLooting(player), true);
-
+        me.drop(DamageSource.player(player));
         me.setRemoved(Entity.RemovalReason.KILLED);
         me.emitGameEvent(GameEvent.ENTITY_KILLED);
 
@@ -51,8 +38,6 @@ public abstract class MixinMob {
       }
 
       cir.setReturnValue(ActionResult.SUCCESS);
-    } else {
-      cir.setReturnValue(ActionResult.PASS);
     }
   }
 }

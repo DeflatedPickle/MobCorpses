@@ -4,6 +4,7 @@ package com.deflatedpickle.mobcorpses.mixin;
 
 import java.util.List;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.mob.MobEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,8 +26,13 @@ public abstract class MixinEntity {
               value = "INVOKE",
               target =
                   "Lnet/minecraft/entity/Entity;setRemoved(Lnet/minecraft/entity/Entity$RemovalReason;)V"))
-  public void setRemove(Entity instance, Entity.RemovalReason reason) {
-    stopRiding();
-    getPassengerList().forEach(Entity::stopRiding);
+  public void setRemoved(Entity instance, Entity.RemovalReason reason) {
+    // stops the mob body from despawning
+    if (instance instanceof MobEntity) {
+      stopRiding();
+      getPassengerList().forEach(Entity::stopRiding);
+    } else {
+      instance.setRemoved(reason);
+    }
   }
 }

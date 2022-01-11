@@ -15,8 +15,4 @@ object MobCorpses : ModInitializer {
     override fun onInitialize() {
         println(listOf(MOD_ID, NAME, GROUP, AUTHOR, VERSION))
     }
-
-    fun init() {
-        println("ow!")
-    }
 }

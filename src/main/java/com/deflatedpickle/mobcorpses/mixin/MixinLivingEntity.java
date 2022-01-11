@@ -3,26 +3,26 @@
 package com.deflatedpickle.mobcorpses.mixin;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.MobEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@SuppressWarnings("UnusedMixin")
+@SuppressWarnings({"UnusedMixin"})
 @Mixin(LivingEntity.class)
 public abstract class MixinLivingEntity {
-  /*@Redirect(
-      method = "updatePostDeath",
+  @Redirect(
+      method = "onDeath",
       at =
           @At(
               value = "INVOKE",
               target =
-                  "Lnet/minecraft/entity/LivingEntity;remove(Lnet/minecraft/entity/Entity$RemovalReason;)V"))
-  public void remove(LivingEntity instance, Entity.RemovalReason removalReason) {}*/
-
-  @Redirect(
-      method = "drop",
-      at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;shouldDropLoot()Z"))
-  public boolean shouldDropLoot(LivingEntity instance) {
-    return false;
+                  "Lnet/minecraft/entity/LivingEntity;drop(Lnet/minecraft/entity/damage/DamageSource;)V"))
+  public void drop(LivingEntity instance, DamageSource source) {
+    // stops items and xp being dropped when killed
+    if (!(instance instanceof MobEntity)) {
+      instance.drop(source);
+    }
   }
 }
