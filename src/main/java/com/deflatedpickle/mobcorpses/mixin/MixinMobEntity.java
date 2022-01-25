@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @SuppressWarnings("UnusedMixin")
 @Mixin(MobEntity.class)
-public abstract class MixinMob {
+public abstract class MixinMobEntity {
   @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
   public void onMobInteract(
       PlayerEntity player, Hand interactionHand, CallbackInfoReturnable<ActionResult> cir) {

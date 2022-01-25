@@ -2,7 +2,8 @@
     "mixins": [
         "MixinEntity",
         "MixinLivingEntity",
-        "MixinMob"
+        "MixinMobEntity",
+        "MixinLivingEntityRenderer"
     ],
     "minVersion": "0.8",
     "package": "${group}.${id}.mixin",
