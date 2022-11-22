@@ -30,7 +30,7 @@ public abstract class MixinMobEntity {
       if (!player.world.isClient) {
         me.drop(DamageSource.player(player));
         me.setRemoved(Entity.RemovalReason.KILLED);
-        me.emitGameEvent(GameEvent.ENTITY_KILLED);
+        me.emitGameEvent(GameEvent.ENTITY_DIE);
 
         player
             .getStackInHand(interactionHand)
